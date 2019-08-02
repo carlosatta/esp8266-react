@@ -2,6 +2,8 @@ const ENDPOINT_ROOT = process.env.REACT_APP_ENDPOINT_ROOT;
 
 export const NTP_STATUS_ENDPOINT = ENDPOINT_ROOT + "ntpStatus";
 export const NTP_SETTINGS_ENDPOINT = ENDPOINT_ROOT + "ntpSettings";
+export const MQTT_STATUS_ENDPOINT = ENDPOINT_ROOT + "mqttStatus";
+export const MQTT_SETTINGS_ENDPOINT = ENDPOINT_ROOT + "mqttSettings";
 export const AP_SETTINGS_ENDPOINT = ENDPOINT_ROOT + "apSettings";
 export const AP_STATUS_ENDPOINT = ENDPOINT_ROOT + "apStatus";
 export const SCAN_NETWORKS_ENDPOINT = ENDPOINT_ROOT + "scanNetworks";

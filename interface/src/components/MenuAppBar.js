@@ -19,8 +19,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Popper from '@material-ui/core/Popper';
 import MenuIcon from '@material-ui/icons/Menu';
 import WifiIcon from '@material-ui/icons/Wifi';
+import ShowChartIcon from '@material-ui/icons/ShowChart';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import SmsIcon from '@material-ui/icons/Sms';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import LockIcon from '@material-ui/icons/Lock';
@@ -118,6 +120,12 @@ class MenuAppBar extends React.Component {
         </Toolbar>
         <Divider />
         <List>
+          <ListItem to='/measurements/' selected={path.startsWith('/measurements/')} button component={Link}>
+            <ListItemIcon>
+              <ShowChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Measurements" />
+          </ListItem>
           <ListItem to='/wifi/' selected={path.startsWith('/wifi/')} button component={Link}>
             <ListItemIcon>
               <WifiIcon />
@@ -130,12 +138,18 @@ class MenuAppBar extends React.Component {
             </ListItemIcon>
             <ListItemText primary="Access Point" />
           </ListItem>
+          <ListItem to='/mqtt/' selected={path.startsWith('/mqtt/')} button component={Link}>
+            <ListItemIcon>
+              <SmsIcon />
+            </ListItemIcon>
+            <ListItemText primary="MQTT" />
+          </ListItem>
           <ListItem to='/ntp/' selected={path.startsWith('/ntp/')} button component={Link}>
             <ListItemIcon>
               <AccessTimeIcon />
             </ListItemIcon>
             <ListItemText primary="Network Time" />
-          </ListItem>
+          </ListItem>          
           <ListItem to='/security/' selected={path.startsWith('/security/')} button component={Link} disabled={!authenticationContext.isAdmin()}>
             <ListItemIcon>
               <LockIcon />
