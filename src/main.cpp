@@ -16,9 +16,13 @@
 #include <NTPSettingsService.h>
 #include <OTASettingsService.h>
 #include <AuthenticationService.h>
+#include <MQTTSettingsService.h>
+#include <LCDService.h>
+#include <PowerMeterService.h>
 #include <WiFiScanner.h>
 #include <WiFiStatus.h>
 #include <NTPStatus.h>
+#include <MQTTStatus.h>
 #include <APStatus.h>
 #include <SystemStatus.h>
 
@@ -26,18 +30,27 @@
 
 AsyncWebServer server(80);
 
+#include <MQTT.h>
+MQTTClient mqtt;
+
 SecuritySettingsService securitySettingsService = SecuritySettingsService(&server, &SPIFFS);
 WiFiSettingsService wifiSettingsService = WiFiSettingsService(&server, &SPIFFS, &securitySettingsService);
 APSettingsService apSettingsService = APSettingsService(&server, &SPIFFS, &securitySettingsService);
 NTPSettingsService ntpSettingsService = NTPSettingsService(&server, &SPIFFS, &securitySettingsService);
 OTASettingsService otaSettingsService = OTASettingsService(&server, &SPIFFS, &securitySettingsService);
+MQTTSettingsService mqttSettingsService = MQTTSettingsService(&server, &SPIFFS, &securitySettingsService, &mqtt);
 AuthenticationService authenticationService = AuthenticationService(&server, &securitySettingsService);
+
+LCDService lcdService = LCDService();
+PowerMeterService powerMeterService = PowerMeterService();
 
 WiFiScanner wifiScanner = WiFiScanner(&server, &securitySettingsService);
 WiFiStatus wifiStatus = WiFiStatus(&server, &securitySettingsService);
 NTPStatus ntpStatus = NTPStatus(&server, &securitySettingsService);
+MQTTStatus mqttStatus = MQTTStatus(&server, &securitySettingsService, &mqtt);
 APStatus apStatus = APStatus(&server, &securitySettingsService);
-SystemStatus systemStatus = SystemStatus(&server, &securitySettingsService);;
+SystemStatus systemStatus = SystemStatus(&server, &securitySettingsService);
+
 
 void setup() {
   // Disable wifi config persistance and auto reconnect
@@ -57,10 +70,15 @@ void setup() {
   securitySettingsService.begin();
 
   // Start services
+  // powerMeterService.begin();
+  mqttSettingsService.begin();
   ntpSettingsService.begin();
   otaSettingsService.begin();
   apSettingsService.begin();
-  wifiSettingsService.begin();
+  wifiSettingsService.begin(); 
+
+  lcdService.begin();
+  
 
   // Serving static resources from /www/
   server.serveStatic("/js/", SPIFFS, "/www/js/");
@@ -91,9 +109,14 @@ void setup() {
   server.begin();
 }
 
-void loop() {
+void loop() {  
   wifiSettingsService.loop();
   apSettingsService.loop();
   ntpSettingsService.loop();
   otaSettingsService.loop();
+  mqttSettingsService.loop();
+
+  lcdService.loop();
+  powerMeterService.loop();
+
 }

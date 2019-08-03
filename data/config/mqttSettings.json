@@ -1,0 +1,11 @@
+{
+  "hostname": "192.168.1.1",
+  "port": 8883,
+  "keepAlive": 10,
+  "cleanSession": true,
+  "timeout": 1000,
+  "haveCredentials": false,
+  "username": "",
+  "password": "",
+  "base_topic": "/pom"
+}
